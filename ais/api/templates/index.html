@@ -1,0 +1,34 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Nordigen Bank Selector UI </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% load static %}
+		<link href="{% static 'nordigen-bank-ui/package/src/selector.min.css' %}" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="institution-content-wrapper">
+			<div id="institution-modal-content">
+				<header class="institution-modal-header">
+					<span class="institution-modal-close">&times;</span>
+					<h2>Select your bank:</h2>
+				</header>
+			</div>
+		</div>
+	</body>
+	{% load static %}
+	<script src="{% static 'nordigen-bank-ui/package/src/selector.js' %}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		const bankList = {{ banks|safe }};
+		const config = {
+			redirectUrl: 'https://ob.nordigen.com/',
+			logoUrl: 'https://cdn.nordigen.com/ais/Nordigen_Logo_Black.svg'
+		};
+		institutionSelector(bankList, 'institution-modal-content', config);
+		$("a").click(function() {
+			const bankId = $(this).data("institution");
+			location.href=`/account/${bankId}/connect`;
+		});
+	</script>
+</html>
